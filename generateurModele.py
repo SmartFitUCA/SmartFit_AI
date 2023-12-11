@@ -5,6 +5,7 @@ import numpy as np
 import requests
 from datetime import datetime, time
 import time as sleep_time
+import logging
 
 # --------------- Fonction -----------------  #
 def generateJsonModel(model:LinearRegression):
@@ -56,10 +57,11 @@ def sendJsonToApi(url,json):
 # Mettre la route de l'api ICI
 urlGetAllData = "https://codefirst.iut.uca.fr/containers/SmartFit-smartfit_api/IA"
 while(True):
-    print("Boucle")
+    logging.info("Début de la boucle")
     jsonBack = { "Users" : []}
     heure_actuelle = datetime.now().time()
     if ( heure_actuelle == time(8, 0)):
+        logging.info("Procédure de création des modèles ")
         # --- Call Api 
         dataUser = getUserWithData(url=urlGetAllData)
         for user in dataUser["Users"]:
@@ -77,8 +79,10 @@ while(True):
             jsonBack["Users"].append(jsonTmp)
         # -- Send Api 
         sendJsonToApi(urlGetAllData,jsonBack)
-    else : 
-        print("Sleep")
+    else :
+        logging.info("Début sleep -1 ") 
+        logging.error("Début sleep - 2 ") 
+        logging.critical("Début sleep - 3 ") 
         if (heure_actuelle < time(7,0) and heure_actuelle > time(8,0) ):
             sleep_time.sleep(3600) # Pause 1 heure 
         elif ( heure_actuelle < time(7,55) ):
