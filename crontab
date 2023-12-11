@@ -1,0 +1,3 @@
+00 08 * * * python generateurModele.py
+* * * * * python testFinal.py
+
