@@ -27,7 +27,9 @@ steps:
   - name: deploy-container
     image: hub.codefirst.iut.uca.fr/thomas.bellembois/codefirst-dockerproxy-clientdrone:latest
     environment:
-        IMAGENAME: hub.codefirst.iut.uca.fr/my.login/my_repository:latest
+        IMAGENAME: hub.codefirst.iut.uca.fr/enzo.jolys/smartfit_ai:latest
         CONTAINERNAME: smartfit_ai
         COMMAND: create
         OVERWRITE: true
+        ADMINS:  remiarnal,enzojolys,othmanebenjelloun
+    depends_on: ["docker-build-and-push"]
