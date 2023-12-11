@@ -7,5 +7,6 @@ crontab /app/crontab
 #service cron start
 
 echo "Start"
+pip install scikit-learn
 cron && tail -f /app/cron.log
 echo "End" 
