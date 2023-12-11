@@ -53,7 +53,7 @@ def sendJsonToApi(url,json):
     return
 
 # ---------------- Main ------------------- #
-logging.warning("RUNNNNNNNN !")
+logging.error("RUNNNNNNNN !")
 
 urlGetAllData = "https://codefirst.iut.uca.fr/containers/SmartFit-smartfit_api/ia/data"
 

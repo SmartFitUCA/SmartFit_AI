@@ -8,8 +8,10 @@ COPY generateurModele.py .
 COPY testFinal.py .
 COPY crontab .
 
+RUN touch /app/cron.log
+
 RUN chmod 0644 /app/crontab
 RUN apt-get update
 RUN apt-get -y install cron
 
-ENTRYPOINT ["cron"]
+CMD cron && tail -f /app/cron.log
