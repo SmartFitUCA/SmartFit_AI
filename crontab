@@ -1,3 +1,3 @@
-* * * * * sudo python3 /app/testFinal.py >> /app/cron.log 2>&1
-00 08 * * * sudo python3 /app/generateurModele.py >> /app/cron.log 2>&1
+* * * * * root python3 /app/testFinal.py >> /app/cron.log 2>&1
+00 08 * * * root python3 /app/generateurModele.py >> /app/cron.log 2>&1
 
