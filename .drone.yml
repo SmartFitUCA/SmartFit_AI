@@ -16,7 +16,7 @@ steps:
     settings:
        dockerfile: Dockerfile
        registry: hub.codefirst.iut.uca.fr
-       repo: hub.codefirst.iut.uca.fr/enzo.jolys/SmartFit_AI
+       repo: hub.codefirst.iut.uca.fr/enzo.jolys/smartfit_ai
        username:
          from_secret: enzo_username
        password:
