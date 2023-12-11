@@ -82,7 +82,7 @@ while(True):
         logging.warning("Info - Procédure de création des modèles fini ")
     else :
         logging.warning("Info - Début sleep")
-        if (heure_actuelle < time(7,0) and heure_actuelle > time(8,0) ):
+        if (heure_actuelle < time(7,0) or heure_actuelle > time(8,0) ):
             logging.warning("Sleep -> 1h")
             sleep_time.sleep(3600) # Pause 1 heure 
         elif ( heure_actuelle < time(7,55) ):

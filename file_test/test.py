@@ -42,6 +42,8 @@ def getUserWithData(url:str):
     response = requests.get(urlGetAllData)
     if ( response.status_code != 200):
         print('problème lors de l extraction des données avec l api !! ->  "getUserWithData" (status_code != 200)')
+        print(response.status_code)
+        print(response.json)
         exit()
     return response.json
 
@@ -54,11 +56,11 @@ def sendJsonToApi(url,json):
 
 # ---------------- Main ------------------- #
 
-#urlGetAllData = "https://codefirst.iut.uca.fr/containers/SmartFit-smartfit_api/xxx"
+urlGetAllData = "https://codefirst.iut.uca.fr/containers/SmartFit-smartfit_api/ia/data"
 
-#jsonBack = { "Users" : []}
+jsonBack = { "Users" : []}
 
-dataUser = {
+dataUserExemple = {
     "Users": [
         {
             "Identifiant": "x",
@@ -75,9 +77,13 @@ dataUser = {
         }
     ]
 }
-'''
+
+# --- Test --- #
+print(time(8, 0))
+print(datetime.now().time() < time(7,0) or datetime.now().time() > time(8,0) )
+# ------------- #
 # -- Call Api
-#dataUser = getUserWithData(url=urlGetAllData)
+dataUser = getUserWithData(url=urlGetAllData)
 
 for user in dataUser["Users"]:
     jsonTmp = {}
@@ -94,46 +100,7 @@ for user in dataUser["Users"]:
     jsonBack["Users"].append(jsonTmp)
 print(jsonBack)
 # -- Send Data to Api 
-#sendJsonToApi(urlGetAllData,jsonBack)
-'''
-
-
-
-
-
-
-urlGetAllData = "https://codefirst.iut.uca.fr/containers/SmartFit-smartfit_api/xxx"
-while(True):
-    print("Boucle")
-    jsonBack = { "Users" : []}
-    heure_actuelle = datetime.now().time()
-    if ( heure_actuelle == time(8, 0)):
-        # --- Call Api 
-        #dataUser = getUserWithData(url=urlGetAllData)
-        for user in dataUser["Users"]:
-            jsonTmp = {}
-
-            jsonTmp["Identifiant"] = user["Identifiant"]
-            jsonTmp["Info"] = []
-
-            for category in user["Info"]:
-                #Mettre la condition longueur ici
-                model = generateModele(category)
-                jsonTmp["Info"].append({"Category": category["Category"],"Model" : generateJsonModel(model)})
-
-            # Add User
-            jsonBack["Users"].append(jsonTmp)
-        # -- Send Api 
-        #sendJsonToApi(urlGetAllData,jsonBack)
-    else : 
-        print("Sleep")
-        if (heure_actuelle < time(7,0) and heure_actuelle > time(8,0) ):
-            sleep_time.sleep(3600) # Pause 1 heure 
-        elif ( heure_actuelle < time(7,55) ):
-            sleep_time.sleep(300)  # Pause de 5 minutes
-        else : 
-            sleep_time.sleep(30)  # Pause de 30 secondes
-
+sendJsonToApi(urlGetAllData,jsonBack)
 
 
 
