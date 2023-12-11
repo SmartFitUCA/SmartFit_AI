@@ -6,7 +6,9 @@ crontab /app/crontab
 # Démarrer le service cron en arrière-plan
 #service cron start
 
-echo "Start"
+
+pip install --upgrade pip
 pip install scikit-learn
+echo "Start"
 cron && tail -f /app/cron.log
 echo "End" 
