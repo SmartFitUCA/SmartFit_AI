@@ -14,4 +14,4 @@ RUN chmod 0644 /app/crontab
 RUN apt-get update
 RUN apt-get -y install cron
 
-CMD cron && tail -f /app/cron.log
+RUN cron && tail -f /app/cron.log
