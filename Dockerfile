@@ -10,8 +10,8 @@ COPY crontab .
 
 RUN touch /app/cron.log
 
-RUN chmod 0644 /app/crontab
+RUN chmod 777 /app/crontab
 RUN apt-get update
 RUN apt-get -y install cron
 
-RUN cron && tail -f /app/cron.log
+ENTRYPOINT [ "cron" ,"&&","tail","-f", "/app/cron.log"]
