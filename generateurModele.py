@@ -57,11 +57,11 @@ def sendJsonToApi(url,json):
 # Mettre la route de l'api ICI
 urlGetAllData = "https://codefirst.iut.uca.fr/containers/SmartFit-smartfit_api/IA"
 while(True):
-    logging.info("Début de la boucle")
+    logging.warning("Info - Début de la boucle")
     jsonBack = { "Users" : []}
     heure_actuelle = datetime.now().time()
     if ( heure_actuelle == time(8, 0)):
-        logging.info("Procédure de création des modèles ")
+        logging.warning("Info - Procédure de création des modèles ")
         # --- Call Api 
         dataUser = getUserWithData(url=urlGetAllData)
         for user in dataUser["Users"]:
@@ -79,17 +79,17 @@ while(True):
             jsonBack["Users"].append(jsonTmp)
         # -- Send Api 
         sendJsonToApi(urlGetAllData,jsonBack)
+        logging.warning("Info - Procédure de création des modèles fini ")
     else :
-        logging.info("Début sleep -1 ") 
-        logging.error("Début sleep - 2 ") 
-        logging.critical("Début sleep - 3 ")
-        logging.warning('4')
-        logging.debug("5")
+        logging.warning("Info - Début sleep")
         if (heure_actuelle < time(7,0) and heure_actuelle > time(8,0) ):
+            logging.warning("Sleep -> 1h")
             sleep_time.sleep(3600) # Pause 1 heure 
         elif ( heure_actuelle < time(7,55) ):
+            logging.warning("Sleep -> 5m")
             sleep_time.sleep(300)  # Pause de 5 minutes
         else : 
+            logging.warning("Sleep -> 30s")
             sleep_time.sleep(30)  # Pause de 30 secondes
 
 
