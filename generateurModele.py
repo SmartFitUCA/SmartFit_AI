@@ -82,7 +82,9 @@ while(True):
     else :
         logging.info("Début sleep -1 ") 
         logging.error("Début sleep - 2 ") 
-        logging.critical("Début sleep - 3 ") 
+        logging.critical("Début sleep - 3 ")
+        logging.warning('4')
+        logging.debug("5")
         if (heure_actuelle < time(7,0) and heure_actuelle > time(8,0) ):
             sleep_time.sleep(3600) # Pause 1 heure 
         elif ( heure_actuelle < time(7,55) ):
