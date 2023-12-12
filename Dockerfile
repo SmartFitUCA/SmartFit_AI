@@ -11,7 +11,7 @@ COPY testFinal.py .
 COPY crontab .
 
 # Installer les dépendances
-#RUN pip install --no-cache-dir -r requirements.txt 
+RUN pip install -r requirements.txt 
 
 # Créer le fichier de log
 RUN touch /app/cron.log
