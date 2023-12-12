@@ -23,8 +23,10 @@ RUN chmod 777 /app/crontab
 RUN apt-get update && apt-get -y install cron
 
 # Copier le script d'entrée
-COPY entrypoint.sh /app/entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
+#COPY entrypoint.sh /app/entrypoint.sh
+#RUN chmod +x /app/entrypoint.sh
+
+RUN crontab /app/crontab.txt
 
 # Définir le point d'entrée de l'image
-ENTRYPOINT ["/app/entrypoint.sh"]
+ENTRYPOINT ["cron"]
