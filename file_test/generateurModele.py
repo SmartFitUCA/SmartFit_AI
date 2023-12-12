@@ -133,8 +133,3 @@ while(True):
             sleep_time.sleep(300)  # Pause de 5 minutes
         else : 
             sleep_time.sleep(30)  # Pause de 30 secondes
-
-
-
-
-    

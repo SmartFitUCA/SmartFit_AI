@@ -16,17 +16,17 @@ def generateJsonModel(model:LinearRegression):
     json = {"coef":listCoef,"intercept":listIntercept}
     return json
 
-def generateModele(dataJson:dict[str,str]):
+def generateModele(dataJson):
     # -- Préparation des données 
     arrayBpm = []
     arrayStartTime = []
     arrayTimeOfActivity = []
 
-    for data in dataJson["Data"]:
-        arrayBpm.append(data["BpmAvg"])
-        arrayTimeOfActivity.append(data["TimeOfActivity"])
+    for data in dataJson:
+        arrayBpm.append(data["json"]["BpmAvg"])
+        arrayTimeOfActivity.append(data["json"]["TimeOfActivity"])
 
-        arrayStartTime.append(data["StartTime"])
+        arrayStartTime.append(data["json"]["StartTime"])
     # -- DataFrame 
     data = pd.DataFrame({
         "Bpm": arrayBpm,
@@ -57,23 +57,47 @@ logging.error("RUNNNNNNNN !")
 
 urlGetAllData = "https://codefirst.iut.uca.fr/containers/SmartFit-smartfit_api/ia/data"
 
-requests.get(urlGetAllData)
-
-jsonBack = { "Users" : []}
 # --- Call Api 
 dataUser = getUserWithData(url=urlGetAllData)
-for user in dataUser["Users"]:
-    jsonTmp = {}
+'''
+dataUser = [{
+  "uuid": "xxxx",
+  "categories": [
+    {
+      "name": "walking",
+      "infos": [
+        {
+          "json": {"BpmAvg":100,"TimeOfActivity":225,"StartTime":1234}
+        }
+      ]
+    },
+    {
+      "name": "cycling",
+      "infos": [
+        {
+          "json":  {"BpmAvg":110,"TimeOfActivity":225,"StartTime":12345}
+        }
+      ]
+    }
+  ]
+}
+]'''
+      
 
-    jsonTmp["Identifiant"] = user["Identifiant"]
-    jsonTmp["Info"] = []
+for user in dataUser:
 
-    for category in user["Info"]:
+    userUUID= user["uuid"]
+
+    for category in user["categories"]:
+        jsonTmp = {}
         #Mettre la condition longueur ici
-        model = generateModele(category)
-        jsonTmp["Info"].append({"Category": category["Category"],"Model" : generateJsonModel(model)})
-    # Add User
-    jsonBack["Users"].append(jsonTmp)
+        
+        model = generateModele(category["infos"])
 
-# -- Send Api 
-sendJsonToApi(urlGetAllData,jsonBack)
+        jsonTmp["uuid"] = userUUID
+        jsonTmp["category"] = category["name"]
+        jsonTmp["model"] = generateJsonModel(model)
+
+        sendJsonToApi(urlGetAllData,jsonTmp)
+
+logging.error("Exec Fini")
