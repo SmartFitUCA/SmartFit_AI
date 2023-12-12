@@ -57,6 +57,8 @@ logging.error("RUNNNNNNNN !")
 
 urlGetAllData = "https://codefirst.iut.uca.fr/containers/SmartFit-smartfit_api/ia/data"
 
+requests.get(urlGetAllData)
+
 jsonBack = { "Users" : []}
 # --- Call Api 
 dataUser = getUserWithData(url=urlGetAllData)
