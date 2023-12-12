@@ -30,4 +30,4 @@ RUN crontab /app/crontab
 RUN crontab -l
 
 # Définir le point d'entrée de l'image
-#ENTRYPOINT ["crone"]
+ENTRYPOINT ["service","cron","restart"]
