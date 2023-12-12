@@ -29,4 +29,4 @@ RUN apt-get update && apt-get -y install cron
 RUN crontab /app/crontab
 
 # Définir le point d'entrée de l'image
-ENTRYPOINT ["crontab -l"]
+ENTRYPOINT ["crontab","-l"]
