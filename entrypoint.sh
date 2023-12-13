@@ -1,14 +1,6 @@
 #!/bin/bash
 
-# Charger le fichier cron
-crontab /app/crontab
-
-# Démarrer le service cron en arrière-plan
-#service cron start
-
-
-pip install --upgrade pip
-pip install scikit-learn
-echo "Start"
-cron && tail -f /app/cron.log
-echo "End" 
+echo "[INFO] STARTING AI MODEL TRAINING SERVER"
+echo "[INFO] LAUNCH CRON IN BACKGROUND"
+service cron start
+service cron status
