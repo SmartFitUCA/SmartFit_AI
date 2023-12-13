@@ -55,7 +55,7 @@ def sendJsonToApi(url,json):
 
 # ---------------- Main ------------------- #
 
-urlGetAllData = "https://codefirst.iut.uca.fr/containers/SmartFit-smartfit_api/ia/data"
+urlGetAllData = "https://codefirst.iut.uca.fr/containers/SmartFit-smartfit_api/ai/data"
 while(True):
     logging.warning("Info - Début de la boucle")
     jsonBack = { "Users" : []}
