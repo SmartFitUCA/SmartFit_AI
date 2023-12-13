@@ -14,7 +14,7 @@ while true; do
     break;
   fi
 
-  echo "[CRON LOGS] "$(sudo grep 'CRON' /var/log/syslog)""
+  echo "[CRON LOGS] "$(grep 'CRON' /var/log/syslog)""
     
   sleep 10
 done
