@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 echo "[INFO] STARTING AI MODEL TRAINING SERVER"
 echo "[INFO] LAUNCH CRON IN BACKGROUND"
