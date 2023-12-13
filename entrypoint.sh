@@ -13,7 +13,9 @@ while true; do
     echo "YES CRON WORKS"
     break;
   fi
-  
+
+  echo "[CRON LOGS] "$(sudo grep 'CRON' /var/log/syslog)""
+    
   sleep 10
 done
 
