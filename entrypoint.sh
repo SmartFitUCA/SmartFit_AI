@@ -2,5 +2,6 @@
 
 echo "[INFO] STARTING AI MODEL TRAINING SERVER"
 echo "[INFO] LAUNCH CRON IN BACKGROUND"
-service cron start
-service cron status
+echo "[INFO] "USER:$USER""
+#sudo service cron start
+#sudo service cron status
