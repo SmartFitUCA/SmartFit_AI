@@ -1,2 +1,2 @@
-*/1 * * * * python3 -u /app/generateurModele.py
+*/1 * * * * python3 -u /app/testFinal.py
 */1 * * * * touch /app/cron_exist.cron
