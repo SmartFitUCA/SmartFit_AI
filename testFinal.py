@@ -4,7 +4,8 @@ import pandas as pd
 import numpy as np
 import requests
 import logging
-
+import json
+from datetime import datetime
 
 # --------------- Fonction -----------------  #
 def generateJsonModel(model:LinearRegression):
@@ -23,10 +24,17 @@ def generateModele(dataJson):
     arrayTimeOfActivity = []
 
     for data in dataJson:
-        arrayBpm.append(data["json"]["BpmAvg"])
-        arrayTimeOfActivity.append(data["json"]["TimeOfActivity"])
+        
+      info = json.loads(data["json"])
 
-        arrayStartTime.append(data["json"]["StartTime"])
+      arrayBpm.append(int(info["bpmAvg"]))
+      arrayTimeOfActivity.append(float(info["timeOfActivity"]))
+
+      # Convertir la chaîne en objet datetime
+      dt_object = datetime.strptime(info["startTime"], "%Y-%m-%dT%H:%M:%S.%f")
+      # Convertir l'objet datetime en millisecondes depuis l'époque
+      milliseconds_since_epoch = int(dt_object.timestamp() * 1000)
+      arrayStartTime.append(milliseconds_since_epoch)
     # -- DataFrame 
     data = pd.DataFrame({
         "Bpm": arrayBpm,
@@ -43,19 +51,20 @@ def getUserWithData(url:str):
     if ( response.status_code != 200):
         print('problème lors de l extraction des données avec l api !! ->  "getUserWithData" (status_code != 200)')
         exit()
-    return response.json
+    return response.json()
 
 def sendJsonToApi(url,json):
-    response = requests.post(url,json)
+    header = {"Content-type": "application/json"}
+    response = requests.post(url,json,headers=header)
     if ( response.status_code != 200):
         print('Problème lors de l envoi des données avec l api !! -> "sendJsonToApi" (status_code != 200)')
         exit()
-    return
+    return 
 
 # ---------------- Main ------------------- #
 logging.error("RUNNNNNNNN !")
 
-urlGetAllData = "https://codefirst.iut.uca.fr/containers/SmartFit-smartfit_api/ia/data"
+urlGetAllData = "https://codefirst.iut.uca.fr/containers/SmartFit-smartfit_api/ai/data"
 
 # --- Call Api 
 dataUser = getUserWithData(url=urlGetAllData)
@@ -82,22 +91,26 @@ dataUser = [{
   ]
 }
 ]'''
-      
+
+logging.error("Nombre de User : "+str(len(dataUser)))
+i = 0
 
 for user in dataUser:
 
-    userUUID= user["uuid"]
+  userUUID = user["uuid"]
 
-    for category in user["categories"]:
-        jsonTmp = {}
-        #Mettre la condition longueur ici
-        
-        model = generateModele(category["infos"])
+  for category in user["categories"]:
+      jsonTmp = {}
+      #Mettre la condition longueur ici
+      
+      model = generateModele(category["infos"])
 
-        jsonTmp["uuid"] = userUUID
-        jsonTmp["category"] = category["name"]
-        jsonTmp["model"] = generateJsonModel(model)
+      jsonTmp["uuid"] = userUUID
+      jsonTmp["category"] = category["name"]
+      jsonTmp["model"] = json.dumps(generateJsonModel(model))
 
-        sendJsonToApi(urlGetAllData,jsonTmp)
+      sendJsonToApi(urlGetAllData,json.dumps(jsonTmp))
+  i+=1
+  logging.error("User nb "+str(i)+" finis")
 
 logging.error("Exec Fini")
