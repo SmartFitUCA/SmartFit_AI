@@ -6,4 +6,12 @@ echo "[INFO] LAUNCH CRON IN BACKGROUND"
 service cron start
 service cron status
 
-sleep infinity
+while true; do
+  if [ -f "/app/cron_exist.cron" ]; then
+    echo "YES CRON WORKS"
+  else
+    echo "NO CRON FOR THE MOMENT"
+  fi
+
+  sleep 10
+done
