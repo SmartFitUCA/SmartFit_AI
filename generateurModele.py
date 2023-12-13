@@ -1,4 +1,3 @@
-
 from sklearn.linear_model import LinearRegression
 import pandas as pd 
 import numpy as np
@@ -6,6 +5,8 @@ import requests
 from datetime import datetime, time
 import time as sleep_time
 import logging
+
+print("[INFO] STARTING DAILY USERS MODELS TRAINING")
 
 # --------------- Fonction -----------------  #
 def generateJsonModel(model:LinearRegression):

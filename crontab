@@ -1,2 +1,2 @@
-*/1 * * * * python3 /app/generateurModele.py
+*/1 * * * * python3 -u /app/generateurModele.py
 
