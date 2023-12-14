@@ -9,13 +9,7 @@ service cron status
 while true; do
   if [ -f "/app/cron_exist.cron" ]; then
     echo "YES CRON WORKS"
-    break;
   fi
-
-  echo "CRON LOGS"
-  cat /app/cron_py.log
-     
-  sleep 10
+    
+  sleep 60
 done
-
-sleep infinity
