@@ -1,10 +1,11 @@
 from sklearn.linear_model import LinearRegression
-import pandas as pd 
-import numpy as np
 import requests
 from datetime import datetime, time
 import time as sleep_time
 import logging
+import json
+
+from fonction import generateModele
 
 print("[INFO] STARTING DAILY USERS MODELS TRAINING")
 
@@ -17,27 +18,6 @@ def generateJsonModel(model:LinearRegression):
         listIntercept.append(model.intercept_[i])
     json = {"coef":listCoef,"intercept":listIntercept}
     return json
-
-def generateModele(dataJson:dict[str,str]):
-    # -- Préparation des données 
-    arrayBpm = []
-    arrayStartTime = []
-    arrayTimeOfActivity = []
-
-    for data in dataJson["Data"]:
-        arrayBpm.append(data["BpmAvg"])
-        arrayTimeOfActivity.append(data["TimeOfActivity"])
-
-        arrayStartTime.append(data["StartTime"])
-    # -- DataFrame 
-    data = pd.DataFrame({
-        "Bpm": arrayBpm,
-        "TimeOfActivity": arrayTimeOfActivity
-    })
-    # -- Régression linéaire 
-    model = LinearRegression()
-    model.fit(np.array(arrayStartTime).reshape(-1,1),data)
-    return model
 
 
 def getUserWithData(url:str):
@@ -59,27 +39,26 @@ def sendJsonToApi(url,json):
 urlGetAllData = "https://codefirst.iut.uca.fr/containers/SmartFit-smartfit_api/ai/data"
 while(True):
     logging.warning("Info - Début de la boucle")
-    jsonBack = { "Users" : []}
     heure_actuelle = datetime.now().time()
     if ( heure_actuelle == time(8, 0)):
         logging.warning("Info - Procédure de création des modèles ")
         # --- Call Api 
         dataUser = getUserWithData(url=urlGetAllData)
-        for user in dataUser["Users"]:
-            jsonTmp = {}
+        for user in dataUser:
+            userUUID:any = user["uuid"]
 
-            jsonTmp["Identifiant"] = user["Identifiant"]
-            jsonTmp["Info"] = []
-
-            for category in user["Info"]:
+            for category in user["categories"]:
+                jsonTmp = {}
                 #Mettre la condition longueur ici
-                model = generateModele(category)
-                jsonTmp["Info"].append({"Category": category["Category"],"Model" : generateJsonModel(model)})
+                
+                model = generateModele(category["infos"])
 
-            # Add User
-            jsonBack["Users"].append(jsonTmp)
+                jsonTmp["uuid"] = userUUID
+                jsonTmp["category"] = category["name"]
+                jsonTmp["model"] = json.dumps(generateJsonModel(model))
+
+                sendJsonToApi(urlGetAllData,json.dumps(jsonTmp))
         # -- Send Api 
-        sendJsonToApi(urlGetAllData,jsonBack)
         logging.warning("Info - Procédure de création des modèles fini ")
     else :
         logging.warning("Info - Début sleep")
