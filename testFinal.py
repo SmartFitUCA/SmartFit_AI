@@ -5,7 +5,6 @@ import pandas as pd
 import numpy as np
 import logging
 import json
-from datetime import datetime
 from fonction import getUserWithData,generateJsonModel,generateModele,sendJsonToApi
 
 
@@ -53,7 +52,8 @@ for user in dataUser:
       jsonTmp["uuid"] = userUUID
       jsonTmp["category"] = category["name"]
       jsonTmp["model"] = json.dumps(generateJsonModel(model))
-
+      print(json.dumps(generateJsonModel(model)))
+      
       sendJsonToApi(urlGetAllData,json.dumps(jsonTmp))
   i+=1
   logging.error("User nb "+str(i)+" finis")

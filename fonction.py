@@ -10,6 +10,8 @@ def generateModele(dataJson):
     arrayBpm = []
     arrayStartTime = []
     arrayTimeOfActivity = []
+    arrayVitesse = []
+    arrayDistance = []
 
     for data in dataJson:
         
@@ -17,6 +19,8 @@ def generateModele(dataJson):
 
       arrayBpm.append(int(info["bpmAvg"]))
       arrayTimeOfActivity.append(float(info["timeOfActivity"]))
+      arrayVitesse.append(float(info["vitesseAvg"]))
+      arrayDistance.append(float(info["distance"]))
 
       # Convertir la chaîne en objet datetime
       dt_object = datetime.strptime(info["startTime"], "%Y-%m-%dT%H:%M:%S.%f")
@@ -26,7 +30,9 @@ def generateModele(dataJson):
     # -- DataFrame 
     data = pd.DataFrame({
         "Bpm": arrayBpm,
-        "TimeOfActivity": arrayTimeOfActivity
+        "TimeOfActivity": arrayTimeOfActivity,
+        "Vitesse" : arrayVitesse,
+        "Distance" : arrayDistance
     })
     # -- Régression linéaire 
     model = LinearRegression()
